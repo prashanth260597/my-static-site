@@ -207,45 +207,6 @@
     }
     typeWriter();
 
-    function updateCountdown() {
-
-  // Get current time in IST
-  const now = new Date();
-
-  // Convert current time to IST
-  const istNow = new Date(
-    now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
-  );
-
-  const year = istNow.getFullYear();
-
-  // Feb 14, 12:00 AM IST
-  let target = new Date(year, 1, 14, 0, 0, 0);
-
-  // Convert target also to IST
-  target = new Date(
-    target.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
-  );
-
-  if (istNow > target) {
-    target = new Date(
-      new Date(year + 1, 1, 14, 0, 0, 0)
-      .toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
-    );
-  }
-
-  const diff = target - istNow;
-
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((diff / (1000 * 60)) % 60);
-  const seconds = Math.floor((diff / 1000) % 60);
-
-  document.getElementById("countdown").innerHTML =
-    `🇮🇳 US Countdown: ${days}d ${hours}h ${minutes}m ${seconds}s 💘`;
-}
-    updateCountdown();
-setInterval(updateCountdown, 1000);
 
     function openSurprise() {
       document.getElementById("surpriseBox").style.display = "block";
