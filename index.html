@@ -146,37 +146,32 @@
     }
     typeWriter();
 
-    // Countdown to Feb 14 00:00 IST
-    function updateCountdown() {
-      const nowUtc = new Date();
+   function updateCountdown() {
 
-      const istOffsetMs = 5.5 * 60 * 60 * 1000;
-      const nowIST = new Date(nowUtc.getTime() + istOffsetMs);
+  const now = new Date();
+  const year = now.getFullYear();
 
-      const year = nowIST.getFullYear();
+  // Feb 14, 12:00 AM local time
+  let target = new Date(year, 1, 14, 0, 0, 0);
 
-      // Feb 14 00:00 IST == Feb 13 18:30 UTC
-      let targetUtc = new Date(Date.UTC(year, 1, 13, 18, 30, 0));
+  // If already passed, set for next year
+  if (now > target) {
+    target = new Date(year + 1, 1, 14, 0, 0, 0);
+  }
 
-      // If passed, target next year
-      const valentinesIST = new Date(year, 1, 14, 0, 0, 0);
-      if (nowIST > valentinesIST) {
-        targetUtc = new Date(Date.UTC(year + 1, 1, 13, 18, 30, 0));
-      }
+  const diff = target - now;
 
-      const diff = targetUtc - nowUtc;
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
 
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
+  document.getElementById("countdown").innerHTML =
+    `🇺🇸 US Countdown: ${days}d ${hours}h ${minutes}m ${seconds}s 💘`;
+}
 
-      document.getElementById("countdown").innerHTML =
-        `🇮🇳 IST Countdown: ${days}d ${hours}h ${minutes}m ${seconds}s 💘`;
-    }
-
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
+updateCountdown();
+setInterval(updateCountdown, 1000);
 
     function openSurprise() {
       document.getElementById("surpriseBox").style.display = "block";
