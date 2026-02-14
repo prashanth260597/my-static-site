@@ -1,10 +1,197 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My First Live Site</title>
+  <meta charset="utf-8" />
+  <title>Happy Valentine’s Day ❤️</title>
+
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(to bottom right, #2b0033, #120018);
+      font-family: Arial, sans-serif;
+      text-align: center;
+      color: white;
+      overflow: hidden;
+    }
+
+    .card { margin-top: 50px; padding: 0 16px; }
+
+    h1 {
+      color: #ff8fab;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 5px pink; }
+      to   { text-shadow: 0 0 20px hotpink; }
+    }
+
+    #typewriter {
+      margin-top: 10px;
+      font-size: 18px;
+      color: #ffd1dc;
+      min-height: 24px;
+    }
+
+    .photo {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      margin: 20px auto;
+      animation: pulse 1.5s infinite;
+      border: 3px solid rgba(255, 143, 171, 0.6);
+    }
+
+    @keyframes pulse {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    .quote {
+      margin: 20px auto;
+      font-size: 20px;
+      max-width: 700px;
+      line-height: 1.4;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: hotpink;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 6px;
+    }
+
+    button:hover { background: deeppink; }
+
+    .countdown { margin-top: 20px; font-size: 18px; }
+
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 20px;
+      animation: floatUp 8s linear infinite;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(0); opacity: 1; }
+      to   { transform: translateY(-100vh); opacity: 0; }
+    }
+
+    #surpriseBox {
+      display: none;
+      margin-top: 20px;
+      font-size: 20px;
+      color: pink;
+      padding: 0 10px;
+    }
+  </style>
 </head>
-<body style="text-align:center; font-family:Arial;">
-  <h1>Hello Prashanth 🚀</h1>
-  <p>This site is live using GitHub Pages!</p>
+
+<body>
+  <div class="card">
+    <h1>Happy Valentine’s Day, Chikky Bangaram ❤️</h1>
+
+    <div id="typewriter"></div>
+
+    <!-- Image location -->
+    <img src="img/her.jpg" class="photo" alt="My Love" />
+
+    <div class="quote" id="quote">
+      “You are my favorite person, my favorite place, and my favorite feeling. ❤️”
+    </div>
+
+    <button onclick="nextQuote()">💘 Next Love</button>
+    <button onclick="openSurprise()">🎁 Open Your Surprise</button>
+
+    <div class="countdown" id="countdown"></div>
+
+    <div id="surpriseBox">
+      💝 You are my today and all of my tomorrows. I love you forever 💗
+    </div>
+  </div>
+
+  <script>
+    const quotes = [
+      "In a world full of maybes, you are my always. 💗",
+      "If love had a name, it would be you. 💞",
+      "Every heartbeat of mine says your name. ❤️",
+      "I found my forever in you. 💖"
+    ];
+
+    let qIndex = 0;
+    function nextQuote() {
+      qIndex = (qIndex + 1) % quotes.length;
+      document.getElementById("quote").innerText = quotes[qIndex];
+    }
+
+    const text = "I love you more than yesterday, less than tomorrow ❤️";
+    let i = 0;
+    function typeWriter() {
+      const el = document.getElementById("typewriter");
+      if (i === 0) el.innerHTML = "";
+      if (i < text.length) {
+        el.innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, 60);
+      }
+    }
+    typeWriter();
+
+    // Countdown to Feb 14 00:00 IST
+    function updateCountdown() {
+      const nowUtc = new Date();
+
+      const istOffsetMs = 5.5 * 60 * 60 * 1000;
+      const nowIST = new Date(nowUtc.getTime() + istOffsetMs);
+
+      const year = nowIST.getFullYear();
+
+      // Feb 14 00:00 IST == Feb 13 18:30 UTC
+      let targetUtc = new Date(Date.UTC(year, 1, 13, 18, 30, 0));
+
+      // If passed, target next year
+      const valentinesIST = new Date(year, 1, 14, 0, 0, 0);
+      if (nowIST > valentinesIST) {
+        targetUtc = new Date(Date.UTC(year + 1, 1, 13, 18, 30, 0));
+      }
+
+      const diff = targetUtc - nowUtc;
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById("countdown").innerHTML =
+        `🇮🇳 IST Countdown: ${days}d ${hours}h ${minutes}m ${seconds}s 💘`;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    function openSurprise() {
+      document.getElementById("surpriseBox").style.display = "block";
+    }
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (16 + Math.random() * 18) + "px";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 8000);
+    }
+    setInterval(createHeart, 500);
+  </script>
 </body>
 </html>
